@@ -35,7 +35,7 @@ body {
     height: 80px;
 }
 
-.auth-links a {
+.links a {
     text-decoration: none;
     color: var(--preto);
     margin-left: 10px;
@@ -89,7 +89,7 @@ body {
     font-size: 32px;
     text-align: center;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
     border-radius: 10px;
 }
 
@@ -113,9 +113,10 @@ body {
 
 .linha {
     width: 1020px;
-    height: 2px;
-    background-color: var(--preto);
+    height: 5px;
+    background-color: var(--laranja);
     margin: 30px auto 30px;
+    border-radius: 5px;
 }
 
 .grid-categorias {
@@ -184,10 +185,31 @@ body {
 }
 
 #titulo {
-    font-size: large;
+    font-size: 25px;
     font-weight: 600;
 }
 
 #titulo span {
-    color: var(--azul);
+    color: var(--laranja);
 }
+
+.container-footer {
+    margin: 0 auto;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+  }
+
+  footer {
+    background-color: var(--azul);
+    color: var(--preto);
+    text-align: center;
+    font-size: medium;
+  }
+ 
+  #social,
+  #copyright {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
