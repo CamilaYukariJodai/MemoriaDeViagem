@@ -13,7 +13,6 @@ body {
     margin: 0;
     font-family: Poppins;
     background-color: var(--background);
-    scroll-behavior: smooth;
 }
 
 .formulario-cadastro {
@@ -31,7 +30,7 @@ body {
     margin-bottom: 30px;
 }
 
-.formulario-cadastro label {
+.formulario-cadastro span {
     display: block;
     font-weight: 600;
     margin-bottom: 5px;

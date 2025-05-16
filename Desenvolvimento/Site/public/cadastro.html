@@ -17,13 +17,13 @@
                 <img src="./img/logo.png">
             </div>
             <div class="links">
-                <a href="#">ENTRAR</a><span>|</span><a href="#">CADASTRAR</a>
+                <a href="login.html">ENTRAR</a><span>|</span><a href="cadastro.html">CADASTRAR</a>
             </div>
         </div>
         <nav class="navbar">
-            <a href="#">Home</a>
+            <a href="index.html">Home</a>
             <span>•</span>
-            <a href="#categorias">Categorias</a>
+            <a href="index.html#categorias">Categorias</a>
             <span>•</span>
             <a href="sobre.html">Sobre</a>
         </nav>
@@ -33,22 +33,22 @@
         <section class="formulario-cadastro">
             <h2>Cadastre-se!</h2>
             <form id="form-cadastro" enctype="multipart/form-data">
-                <label for="nome">Nome:</label>
+                <span for="nome">Nome:</span>
                 <input type="text" id="nome" name="nome" required>
               
-                <label for="email">Email:</label>
+                <span for="email">Email:</span>
                 <input type="email" id="email" name="email" required>
               
-                <label for="senha">Senha:</label>
+                <span for="senha">Senha:</span>
                 <input type="password" id="senha" name="senha" required>
               
-                <label for="destino">Destino da Viagem:</label>
+                <span for="destino">Destino da Viagem:</span>
                 <input type="text" id="destino" name="destino" required>
               
-                <label for="dtViagem">Data da Viagem:</label>
+                <span for="dtViagem">Data da Viagem:</span>
                 <input type="date" id="dtViagem" name="dtViagem" required>
               
-                <label for="companhia">Companhia:</label>
+                <span for="companhia">Companhia:</span>
                 <select id="companhia" name="companhia" required>
                   <option value="sozinho">Sozinho</option>
                   <option value="amigos">Amigos</option>
@@ -56,7 +56,7 @@
                   <option value="familia">Família</option>
                 </select>
               
-                <label for="categoria">Categoria:</label>
+                <span for="categoria">Categoria:</span>
                 <select id="categoria" name="categoria" required>
                   <option value="praia">Praia</option>
                   <option value="cidadegrande">Cidade Grande</option>
@@ -64,13 +64,13 @@
                   <option value="historico">Histórico/Cultural</option>
                 </select>
 
-                <label for="comentario">Comentário:</label>
+                <span for="comentario">Comentário:</span>
                 <input type="text" id="comentario" name="comentario" required>
 
-                <label for="foto">Foto da Viagem:</label>
+                <span for="foto">Foto da Viagem:</span>
                 <input type="file" id="foto" name="foto" accept="image/*">
               
-                <button type="submit">Cadastrar</button>
+                <button onclick="cadastrar()">Cadastrar</button>
               </form>
         </section>
     </main>
@@ -88,18 +88,21 @@
         </div>
     </footer>
 
-    <script>
-        document.getElementById("form-cadastro").addEventListener("submit", function (event) {
-            event.preventDefault();
+</body>
 
-            const nome = document.getElementById("nome").value;
-            const email = document.getElementById("email").value;
-            const senha = document.getElementById("senha").value;
-            const destino = document.getElementById("destino").value;
-            const dtViagem = document.getElementById("dtViagem").value;
-            const companhia = document.getElementById("companhia").value;
-            const categoria = document.getElementById("categoria").value;
-            const comentario = document.getElementById("comentario").value;
+</html>
+
+ <script>
+        function cadastrar() {
+
+            var nome = document.getElementById("nome").value;
+            var email = document.getElementById("email").value;
+            var senha = document.getElementById("senha").value;
+            var destino = document.getElementById("destino").value;
+            var dtViagem = document.getElementById("dtViagem").value;
+            var companhia = document.getElementById("companhia").value;
+            var categoria = document.getElementById("categoria").value;
+            var comentario = document.getElementById("comentario").value;
 
             fetch("http://localhost:3000/cadastrar", {
                 method: "POST",
@@ -122,8 +125,5 @@
                     console.error("Erro:", err);
                     alert("Erro na requisição.");
                 });
-        });
+        }
     </script>
-</body>
-
-</html>
