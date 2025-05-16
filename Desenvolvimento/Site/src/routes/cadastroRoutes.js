@@ -1,16 +1,18 @@
-var express = require("express");
-var router = express.Router();
-var cadastroController = require("../controllers/cadastroController");
-var multer = require("multer");
-var path = require("path");
+const express = require("express");
+const router = express.Router();
+const upload = require('../config/configUpload');
+const cadastroController = require("../controllers/cadastroController");
 
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname)
+router.get("", (req, res) => {
+  res.render("index")
 });
 
-var upload = multer({ storage: storage });
+router.post('/cadastro', upload.single('foto'), (req, res) => {
+  cadastroController.salvar(req, res);
+});
 
-router.post("/", upload.single("foto"), cadastroController.cadastrar);
+router.get('/:id', upload.single('foto'), (req, res) => {
+  cadastroController.buscarUsuarioPeloId(req, res);
+});
 
 module.exports = router;

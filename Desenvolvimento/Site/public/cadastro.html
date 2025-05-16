@@ -34,44 +34,44 @@
             <h2>Cadastre-se!</h2>
             <form id="form-cadastro" enctype="multipart/form-data">
                 <span for="nome">Nome:</span>
-                <input type="text" id="nome" name="nome" required>
-              
+                <input id="nome" name="nome" type="text" required>
+
                 <span for="email">Email:</span>
-                <input type="email" id="email" name="email" required>
-              
+                <input id="email" name="email" type="email" required>
+
                 <span for="senha">Senha:</span>
-                <input type="password" id="senha" name="senha" required>
-              
+                <input id="senha" name="senha" type="password" required>
+
                 <span for="destino">Destino da Viagem:</span>
-                <input type="text" id="destino" name="destino" required>
-              
+                <input id="destino" name="destino" type="text" required>
+
                 <span for="dtViagem">Data da Viagem:</span>
-                <input type="date" id="dtViagem" name="dtViagem" required>
-              
+                <input id="dtViagem" name="dtViagem" type="date" required>
+
                 <span for="companhia">Companhia:</span>
                 <select id="companhia" name="companhia" required>
-                  <option value="sozinho">Sozinho</option>
-                  <option value="amigos">Amigos</option>
-                  <option value="conjuge">Cônjuge</option>
-                  <option value="familia">Família</option>
+                    <option value="sozinho">Sozinho</option>
+                    <option value="amigos">Amigos</option>
+                    <option value="conjuge">Cônjuge</option>
+                    <option value="familia">Família</option>
                 </select>
-              
+
                 <span for="categoria">Categoria:</span>
                 <select id="categoria" name="categoria" required>
-                  <option value="praia">Praia</option>
-                  <option value="cidadegrande">Cidade Grande</option>
-                  <option value="natureza">Natureza/Aventura</option>
-                  <option value="historico">Histórico/Cultural</option>
+                    <option value="praia">Praia</option>
+                    <option value="cidadegrande">Cidade Grande</option>
+                    <option value="natureza">Natureza/Aventura</option>
+                    <option value="historico">Histórico/Cultural</option>
                 </select>
 
                 <span for="comentario">Comentário:</span>
-                <input type="text" id="comentario" name="comentario" required>
+                <input id="comentario" name="comentario" type="text" required>
 
                 <span for="foto">Foto da Viagem:</span>
-                <input type="file" id="foto" name="foto" accept="image/*">
-              
+                <input id="foto" name="foto" type="file">
+
                 <button onclick="cadastrar()">Cadastrar</button>
-              </form>
+            </form>
         </section>
     </main>
 
@@ -92,38 +92,28 @@
 
 </html>
 
- <script>
-        function cadastrar() {
+<script>
+    function cadastrar() {
+        const formData = new FormData()
+        formData.append('foto', foto.files[0])
+        formData.append('nome', nome.value)
+        formData.append('email', email.value)
+        formData.append('senha', senha.value)
+        formData.append('destino', destino.value)
+        formData.append('dtViagem', dtViagem.value)
+        formData.append('companhia', companhia.value)
+        formData.append('categoria', categoria.value)
+        formData.append('comentario', comentario.value)
 
-            var nome = document.getElementById("nome").value;
-            var email = document.getElementById("email").value;
-            var senha = document.getElementById("senha").value;
-            var destino = document.getElementById("destino").value;
-            var dtViagem = document.getElementById("dtViagem").value;
-            var companhia = document.getElementById("companhia").value;
-            var categoria = document.getElementById("categoria").value;
-            var comentario = document.getElementById("comentario").value;
-
-            fetch("http://localhost:3000/cadastrar", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    nome,
-                    email,
-                    senha,
-                    destino,
-                    dtViagem,
-                    companhia,
-                    categoria,
-                    comentario
-                })
+        fetch("/cadastroRoutes/cadastro", {
+            method: "POST",
+            body: formData
+        })
+            .then(res => {
+                window.location = "./login.html"
             })
-                .then(res => res.ok ? alert("Cadastro realizado com sucesso!") : alert("Erro ao cadastrar."))
-                .catch(err => {
-                    console.error("Erro:", err);
-                    alert("Erro na requisição.");
-                });
-        }
-    </script>
+            .catch(err => {
+                console.error(err);
+            });
+    }
+</script>

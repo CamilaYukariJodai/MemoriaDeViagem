@@ -257,3 +257,19 @@ footer {
     margin-top: 25px;
     margin-bottom: 25px;
 }
+
+/* categorias */
+.container {
+    display: flex;
+    margin: auto 200px 0 200px;
+}
+
+.imagem {
+    width: 350px;
+    height: 250px;
+}
+
+.texto {
+    flex: 1;
+    padding-left: 20px;
+}

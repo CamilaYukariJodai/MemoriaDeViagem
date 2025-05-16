@@ -1,28 +1,28 @@
 var cadastroModel = require("../models/cadastroModel");
 
-function cadastrar(req, res) {
-  var { nome, email, senha, destino, dtViagem, companhia } = req.body;
-  var foto = req.file.filename;
+function salvar(req, res) {
+  const imagem = req.file.filename;
 
-  cadastroModel.inserirUsuario(nome, email, senha, (err, resultadoUsuario) => {
-    if (err) {
-      console.error("Erro ao inserir usuário:", err);
-      return res.status(500).json({ erro: "Erro ao cadastrar usuário" });
-    }
+  const {nome, email} = req.body
 
-    var idUsuario = resultadoUsuario.insertId;
-
-    cadastroModel.inserirViagem(idUsuario, destino, dtViagem, companhia, foto, (err2) => {
-      if (err2) {
-        console.error("Erro ao inserir viagem:", err2);
-        return res.status(500).json({ erro: "Erro ao cadastrar viagem" });
-      }
-
-      res.status(201).json({ mensagem: "Cadastro realizado com sucesso!" });
-    });
+  const usuario = { nome, email, imagem }
+  
+  cadastroModel.salvar(usuario)
+  .then(resultado => {
+    res.status(201).send("Usuario criado com sucesso");
+  }).catch(err => {
+    res.status(500).send(err);
   });
 }
 
-module.exports = {
-  cadastrar
-};
+function buscarUsuarioPeloId(req, res) {
+  console.log(req.params.id);
+  cadastroModel.buscarUsuarioPeloId(req.params.id)
+  .then(resultado => {
+    res.json(resultado);
+  }).catch(err => {
+    res.status(500).send(err);
+  });
+}
+
+module.exports = { salvar, buscarUsuarioPeloId }
