@@ -15,7 +15,7 @@ dtViagem date,
 duracao int,
 companhia varchar(50),
 categoria varchar(80),
-comentario text,
+comentario varchar(255),
 imagem varchar(255)
 );
 
@@ -26,3 +26,5 @@ constraint pkComposta primary key (idUsuario, idViagem),
 constraint fkUsuarioViagem foreign key (idUsuario) references usuarios(idUsuario),
 constraint fkViagemUsuario foreign key (idViagem) references viagens(idViagem)
 );
+
+select * from usuarios;

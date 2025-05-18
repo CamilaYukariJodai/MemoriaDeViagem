@@ -5,7 +5,7 @@ function salvar(req, res) {
 
   const {nome, email} = req.body
 
-  const usuario = { nome, email, imagem }
+  const usuario = { nome, email, senha, id_usuario, destino, dtViagem, companhia, categoria, comentario, imagem }
   
   cadastroModel.salvar(usuario)
   .then(resultado => {

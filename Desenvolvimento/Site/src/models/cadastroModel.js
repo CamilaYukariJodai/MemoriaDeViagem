@@ -1,10 +1,10 @@
-const db = require("../database/config");
+const database = require("../database/config");
 
-function salvar(usuario) {
-  const instrucao = `insert into usuario (nome, email, imagem_perfil) values ('${usuario.nome}', '${usuario.email}', '${usuario.imagem}')`;
+// function salvar(usuario) {
+//   const instrucao = `insert into usuario (nome, email, imagem_perfil) values ('${usuario.nome}', '${usuario.email}', '${usuario.imagem}')`;
 
-  return database.executar(instrucao);
-}
+//   return database.executar(instrucao);
+// }
 
 function buscarUsuarioPeloId(id) {
   const instrucao = `select * from usuario where id = ${id}`;
@@ -12,9 +12,9 @@ function buscarUsuarioPeloId(id) {
   return database.executar(instrucao);
 }
 
-function inserirUsuario(nome, email, senha) {
-  const sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
-  db.query(sql, [nome, email, senha]);
+function salvar(usuario) {
+  const instrucao = `INSERT INTO usuarios (nome, email, senha) VALUES ('${usuario.nome}', '${usuario.email}', '${usuario.senha}')`;
+  return database.executar(instrucao);
 }
 
 function inserirViagem(idUsuario, destino, data, companhia, categoria, comentario, foto) {
@@ -23,7 +23,6 @@ function inserirViagem(idUsuario, destino, data, companhia, categoria, comentari
 }
 
 module.exports = {
-  inserirUsuario,
   inserirViagem,
   salvar,
   buscarUsuarioPeloId
