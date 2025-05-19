@@ -32,45 +32,17 @@
     <main>
         <section class="formulario-cadastro">
             <h2>Cadastre-se!</h2>
-            <form id="form-cadastro" enctype="multipart/form-data">
-                <span for="nome">Nome:</span>
-                <input id="nome" name="nome" type="text" required>
+            <form id="form-cadastro">
+                <label>Nome:</label>
+                <input type="text" name="nome" required>
 
-                <span for="email">Email:</span>
-                <input id="email" name="email" type="email" required>
+                <label>Email:</label>
+                <input type="email" name="email" required>
 
-                <span for="senha">Senha:</span>
-                <input id="senha" name="senha" type="password" required>
+                <label>Senha:</label>
+                <input type="password" name="senha" required>
 
-                <span for="destino">Destino da Viagem:</span>
-                <input id="destino" name="destino" type="text" required>
-
-                <span for="dtViagem">Data da Viagem:</span>
-                <input id="dtViagem" name="dtViagem" type="date" required>
-
-                <span for="companhia">Companhia:</span>
-                <select id="companhia" name="companhia" required>
-                    <option value="sozinho">Sozinho</option>
-                    <option value="amigos">Amigos</option>
-                    <option value="conjuge">Cônjuge</option>
-                    <option value="familia">Família</option>
-                </select>
-
-                <span for="categoria">Categoria:</span>
-                <select id="categoria" name="categoria" required>
-                    <option value="praia">Praia</option>
-                    <option value="cidadegrande">Cidade Grande</option>
-                    <option value="natureza">Natureza/Aventura</option>
-                    <option value="historico">Histórico/Cultural</option>
-                </select>
-
-                <span for="comentario">Comentário:</span>
-                <input id="comentario" name="comentario" type="text" required>
-
-                <span for="foto">Foto da Viagem:</span>
-                <input id="foto" name="foto" type="file">
-
-                <button onclick="cadastrar()">Cadastrar</button>
+                <button type="submit">Cadastrar</button>
             </form>
         </section>
     </main>
@@ -93,27 +65,27 @@
 </html>
 
 <script>
-    function cadastrar() {
-        const formData = new FormData()
-        formData.append('foto', foto.files[0])
-        formData.append('nome', nome.value)
-        formData.append('email', email.value)
-        formData.append('senha', senha.value)
-        formData.append('destino', destino.value)
-        formData.append('dtViagem', dtViagem.value)
-        formData.append('companhia', companhia.value)
-        formData.append('categoria', categoria.value)
-        formData.append('comentario', comentario.value)
+    const form = document.getElementById("form-cadastro");
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-        fetch("/cadastroRoutes/cadastro", {
+        const dados = {
+            nome: form.nome.value,
+            email: form.email.value,
+            senha: form.senha.value,
+        };
+
+        fetch("/usuarios/cadastrar", {
             method: "POST",
-            body: formData
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados),
         })
-            .then(res => {
-                window.location = "./login.html"
-            })
-            .catch(err => {
-                console.error(err);
+            .then(res => res.json())
+            .then(data => {
+                alert(data.mensagem || data.erro);
+                if (!data.erro) {
+                    window.location.href = "login.html"; // se quiser redirecionar
+                }
             });
-    }
+    });
 </script>
