@@ -1,8 +1,24 @@
-const db = require("../database/conexao");
+var conexao = require("../database/conexao");
 
-function inserir(nome, email, senha, callback) {
-  const sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
-  db.query(sql, [nome, email, senha], callback); // <-- aqui dá erro se db não tiver .query()
+function autenticar(email, senha) {
+  var instrucao = `
+        SELECT * FROM usuarios
+        WHERE email = ? AND senha = ?;
+    `;
+  console.log("Executando a instrução SQL: \n" + instrucao);
+  return conexao.query(instrucao, [email, senha]);
 }
 
-module.exports = { inserir };
+function cadastrar(nome, email, senha) {
+  var instrucao = `
+        INSERT INTO usuarios (nome, email, senha)
+        VALUES (?, ?, ?);
+    `;
+  console.log("Executando a instrução SQL: \n" + instrucao);
+  return conexao.query(instrucao, [nome, email, senha]);
+}
+
+module.exports = {
+  autenticar,
+  cadastrar,
+};
