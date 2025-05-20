@@ -34,15 +34,15 @@
             <h2>Cadastre-se!</h2>
             <form name="formCadastroUsuario" id="formCadastroUsuario">
                 <span>Nome:</span>
-                <input type="text" id="nomeServer" name="nomeServer" /><br />
+                <input type="text" id="nome_input" name="nome" /><br />
 
                 <span>Email:</span>
-                <input type="email" id="emailServer" name="emailServer" /><br />
+                <input type="email" id="email_input" name="email" /><br />
 
                 <span>Senha:</span>
-                <input type="password" id="senhaServer" name="senhaServer" /><br />
+                <input type="password" id="senha_input" name="senha" /><br />
 
-                <button onclick="cadastrarUsuario()">Cadastrar</button>
+                <button onclick="cadastrarUsuario()" type="button">Cadastrar</button>
             </form>
         </section>
     </main>
@@ -66,20 +66,24 @@
 
 <script>
     function cadastrarUsuario() {
-        var nome = document.getElementById("nomeServer").value;
-        var email = document.getElementById("emailServer").value;
-        var senha = document.getElementById("senhaServer").value;
 
-        if (nome == "") {
-            alert("Preencha o campo Nome");
+        var nomeVar = nome_input.value;
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (nomeVar == "" || emailVar == "" || senhaVar == "") {
+            alert("Todos os campos devem ser preenchidos!");
             return;
         }
-        if (email == "") {
-            alert("Preencha o campo Email");
+
+        if (nomeVar.length <= 1) {
+            alert("Insira um nome maior");
             return;
-        }
-        if (senha == "") {
-            alert("Preencha o campo Senha");
+        } else if (!emailVar.includes("@") || !emailVar.includes(".")) {
+            alert("Insira um e-mail válido.");
+            return;
+        } else if (senhaVar.length <= 6) {
+            alert("A senha deve conter mais de 6 caracteres.");
             return;
         }
 
@@ -89,19 +93,19 @@
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                nomeServer: nome,
-                emailServer: email,
-                senhaServer: senha
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar
             })
         })
             .then(function (resposta) {
                 if (resposta.ok) {
-                    alert("Cadastro realizado com sucesso!")
+                    alert("Cadastro realizado com sucesso! Redirecionando para o login...");
                     setTimeout(() => {
                         window.location = "login.html";
-                    }, "2000");
+                    }, 2000);
                 } else {
-                    alert("Erro ao cadastrar:", erro)
+                    alert("Erro ao cadastrar. Tente novamente.");
                 }
             })
             .catch(function (erro) {
