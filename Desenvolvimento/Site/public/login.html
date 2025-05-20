@@ -33,15 +33,15 @@
         <section class="formulario-cadastro">
             <h2>Olá de volta!</h2>
             <form id="form-cadastro">
-              
+
                 <span for="email">Email:</span>
-                <input type="email" id="email" name="email" required>
-              
+                <input type="email" id="email_input" name="email" required>
+
                 <span for="senha">Senha:</span>
-                <input type="password" id="senha" name="senha" required>
-              
+                <input type="password" id="senha_input" name="senha" required>
+
                 <button onclick="entrar()">Entrar</button>
-              </form>
+            </form>
         </section>
     </main>
 
@@ -62,8 +62,6 @@
 </html>
 
 <script>
-
-
     function entrar() {
         aguardar();
 
@@ -71,13 +69,8 @@
         var senhaVar = senha_input.value;
 
         if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
-            return false;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
+            alert("Todos os campos devem ser preenchidos!");
+            return;
         }
 
         console.log("FORM LOGIN: ", emailVar);
@@ -107,8 +100,8 @@
                     sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
 
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
-                    }, 1000); // apenas para exibir o loading
+                        window.location = "./dashboards/cards.html";
+                    }, 1000);
 
                 });
 
@@ -127,10 +120,6 @@
         })
 
         return false;
-    }
-
-    function sumirMensagem() {
-        cardErro.style.display = "none"
     }
 
 </script>
