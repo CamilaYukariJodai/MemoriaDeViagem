@@ -120,7 +120,9 @@
             .then(function (resposta) {
                 if (resposta.ok) {
                     alert("Viagem cadastrada com sucesso!");
-                    document.getElementById("form-viagem").reset();
+                    setTimeout(() => {
+                        window.location.href = "./dashboards/cards.html";
+                    }, 1000);
                 } else {
                     resposta.text().then(function (texto) {
                         console.error(texto);
@@ -129,7 +131,7 @@
                 }
             })
             .catch(function (erro) {
-                console.error("Erro na requisição:", erro);
+                console.log("Erro na requisição:", erro);
                 alert("Erro ao enviar a viagem.");
             });
     }

@@ -8,4 +8,4 @@ const conexao = mysql.createConnection({
     port: process.env.DB_PORT
 });
 
-module.exports = conexao.promise();
+module.exports = conexao;

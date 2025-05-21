@@ -1,25 +1,51 @@
 var conexao = require("../database/conexao");
 
-function autenticar(email, senha) {
-  var instrucao = `
-    SELECT * FROM usuarios
-    WHERE email = '${email}' AND senha = '${senha}'
-    LIMIT 1;
-  `;
-  console.log("Executando a instrução SQL: \n" + instrucao);
-  return conexao.promise().query(instrucao); // ✅ USAR .promise()
+function cadastrar(nome, email, senha, res) {
+    var instrucao = `
+        INSERT INTO usuarios (nome, email, senha)
+        VALUES ('${nome}', '${email}', '${senha}');
+    `;
+
+    conexao.query(instrucao, function (erro, resultado) {
+        if (erro) {
+            console.log("Erro ao cadastrar usuário:", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+            return;
+        }
+
+        res.status(200).json({ mensagem: "Usuário cadastrado com sucesso!" });
+    });
 }
 
-function cadastrar(nome, email, senha) {
-  var instrucao = `
-    INSERT INTO usuarios (nome, email, senha)
-    VALUES (?, ?, ?);
-  `;
-  console.log("Executando a instrução SQL: \n" + instrucao);
-  return conexao.promise().query(instrucao, [nome, email, senha]); // ✅ USAR .promise()
+function autenticar(email, senha, res) {
+    var instrucao = `
+        SELECT * FROM usuarios
+        WHERE email = '${email}' AND senha = '${senha}'
+        LIMIT 1;
+    `;
+
+    conexao.query(instrucao, function (erro, resultado) {
+        if (erro) {
+            console.log("Erro ao autenticar:", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+            return;
+        }
+
+        if (resultado.length == 1) {
+            res.status(200).json({
+                idUsuario: resultado[0].idUsuario,
+                nome: resultado[0].nome,
+                email: resultado[0].email
+            });
+        } else if (resultado.length == 0) {
+            res.status(403).send("Email e/ou senha inválidos.");
+        } else {
+            res.status(403).send("Mais de um usuário com o mesmo login e senha.");
+        }
+    });
 }
 
 module.exports = {
-  autenticar,
-  cadastrar,
+    cadastrar,
+    autenticar
 };
