@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Viagem</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h1>Cadastro de Viagem</h1>
+  <form name="formCadastro" id="formCadastro">
+    <label>Destino:</label>
+    <input type="text" name="destinoServer" id="destinoServer" /><br />
+
+    <label>Data da Viagem:</label>
+    <input type="date" name="dtViagemServer" id="dtViagemServer" /><br />
+
+    <label>Duração (dias):</label>
+    <input type="number" name="duracaoServer" id="duracaoServer" /><br />
+
+    <label>Companhia:</label>
+    <input type="text" name="companhiaServer" id="companhiaServer" /><br />
+
+    <label>Categoria:</label>
+    <input type="text" name="categoriaServer" id="categoriaServer" /><br />
+
+    <label>Comentário:</label>
+    <textarea name="comentarioServer" id="comentarioServer"></textarea><br />
+
+    <label>Imagem (nome do arquivo):</label>
+    <input type="text" name="imagemServer" id="imagemServer" /><br />
+
+    <button type="button" onclick="cadastrar()">Cadastrar</button>
+  </form>
+
+  <div id="mensagem"></div>
+
+  <script>
+    function cadastrar() {
+      var destino = document.getElementById("destinoServer").value;
+      var dtViagem = document.getElementById("dtViagemServer").value;
+      var duracao = document.getElementById("duracaoServer").value;
+      var companhia = document.getElementById("companhiaServer").value;
+      var categoria = document.getElementById("categoriaServer").value;
+      var comentario = document.getElementById("comentarioServer").value;
+      var imagem = document.getElementById("imagemServer").value;
+
+      if (destino == "") {
+        alert("Preencha o campo Destino");
+        return;
+      }
+      if (dtViagem == "") {
+        alert("Preencha o campo Data da Viagem");
+        return;
+      }
+      if (duracao == "") {
+        alert("Preencha o campo Duração");
+        return;
+      }
+      if (companhia == "") {
+        alert("Preencha o campo Companhia");
+        return;
+      }
+      if (categoria == "") {
+        alert("Preencha o campo Categoria");
+        return;
+      }
+      if (comentario == "") {
+        alert("Preencha o campo Comentário");
+        return;
+      }
+      if (imagem == "") {
+        alert("Preencha o campo Imagem");
+        return;
+      }
+
+      fetch("/viagens/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          destinoServer: destino,
+          dtViagemServer: dtViagem,
+          duracaoServer: duracao,
+          companhiaServer: companhia,
+          categoriaServer: categoria,
+          comentarioServer: comentario,
+          imagemServer: imagem
+        })
+      }).then(function (resposta) {
+        if (resposta.ok) {
+          document.getElementById("mensagem").innerHTML = "Viagem cadastrada com sucesso!";
+          document.getElementById("formCadastro").reset();
+        } else {
+          resposta.text().then(texto => {
+            document.getElementById("mensagem").innerHTML = "Erro: " + texto;
+          });
+        }
+      }).catch(function (erro) {
+        document.getElementById("mensagem").innerHTML = "Erro na conexão com o servidor.";
+      });
+    }
+  </script>
+</body>
+</html>
