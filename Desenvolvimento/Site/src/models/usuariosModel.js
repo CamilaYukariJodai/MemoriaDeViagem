@@ -3,7 +3,7 @@ var conexao = require("../database/conexao");
 function autenticar(email, senha) {
   var instrucao = `
         SELECT * FROM usuarios
-        WHERE email = ? AND senha = ?;
+        WHERE email = '${email}' AND senha = '${senha}';
     `;
   console.log("Executando a instrução SQL: \n" + instrucao);
   return conexao.query(instrucao, [email, senha]);

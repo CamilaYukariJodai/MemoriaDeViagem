@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viagem.Log</title>
+    <title>Viagem.Log | Login</title>
     <script src="./js/sessao.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
@@ -40,7 +40,7 @@
                 <span for="senha">Senha:</span>
                 <input type="password" id="senha_input" name="senha" required>
 
-                <button onclick="entrar()">Entrar</button>
+                <button onclick="entrar()" type="button">Entrar</button>
             </form>
         </section>
     </main>
@@ -63,8 +63,6 @@
 
 <script>
     function entrar() {
-        aguardar();
-
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
 
@@ -92,18 +90,19 @@
                 console.log(resposta);
 
                 resposta.json().then(json => {
+
                     console.log(json);
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+                    sessionStorage.ID_USUARIO = json.idUsuario;
 
-                    setTimeout(function () {
-                        window.location = "cadastroviagem.html";
-                    }, 1000);
+                    alert("Usuário logado com sucesso! Redirecionando para o cadastro de viagem...")
 
-                });
+                    setTimeout(() => {
+            window.location.href = "cadastroviagem.html";
+          }, 1000);
+        });
 
             } else {
 

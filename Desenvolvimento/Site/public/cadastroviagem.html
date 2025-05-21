@@ -1,105 +1,105 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Cadastro de Viagem</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <title>Viagem.Log | Cadastrar Viagem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
-  <h1>Cadastro de Viagem</h1>
-  <form name="formCadastro" id="formCadastro">
-    <label>Destino:</label>
-    <input type="text" name="destinoServer" id="destinoServer" /><br />
 
-    <label>Data da Viagem:</label>
-    <input type="date" name="dtViagemServer" id="dtViagemServer" /><br />
+    <div class="form-container">
+        <h2>Cadastrar Viagem</h2>
 
-    <label>Duração (dias):</label>
-    <input type="number" name="duracaoServer" id="duracaoServer" /><br />
+        <form name="formCadastroViagem" id="formCadastroUsuario" enctype="multipart/form-data">
+            <span>Destino</span>
+            <input type="text" name="destino" required>
 
-    <label>Companhia:</label>
-    <input type="text" name="companhiaServer" id="companhiaServer" /><br />
+            <span>Data da Viagem</span>
+            <input type="date" name="dtViagem" required>
 
-    <label>Categoria:</label>
-    <input type="text" name="categoriaServer" id="categoriaServer" /><br />
+            <span>Duração (em dias)</span>
+            <input type="number" name="duracao" required min="1">
 
-    <label>Comentário:</label>
-    <textarea name="comentarioServer" id="comentarioServer"></textarea><br />
+            <span>Companhia</span>
+            <select name="companhia" required>
+                <option value="">Selecione</option>
+                <option value="sozinho">Sozinho</option>
+                <option value="amigos">Amigos</option>
+                <option value="familia">Família</option>
+                <option value="conjuge">Cônjuge</option>
+            </select>
 
-    <label>Imagem (nome do arquivo):</label>
-    <input type="text" name="imagemServer" id="imagemServer" /><br />
+            <span>Categoria</span>
+            <select name="categoria" required>
+                <option value="">Selecione</option>
+                <option value="Praia">Praia</option>
+                <option value="Cidade Grande">Cidade Grande</option>
+                <option value="Natureza/Aventura">Natureza/Aventura</option>
+                <option value="Histórico/Cultural">Histórico/Cultural</option>
+            </select>
 
-    <button type="button" onclick="cadastrar()">Cadastrar</button>
-  </form>
+            <span>Comentário</span>
+            <textarea name="comentario" rows="4" placeholder="Como foi sua viagem?" required></textarea>
 
-  <div id="mensagem"></div>
+            <span>Foto</span>
+            <input type="file" name="fotoViagem" accept="image/*" required>
 
-  <script>
-    function cadastrar() {
-      var destino = document.getElementById("destinoServer").value;
-      var dtViagem = document.getElementById("dtViagemServer").value;
-      var duracao = document.getElementById("duracaoServer").value;
-      var companhia = document.getElementById("companhiaServer").value;
-      var categoria = document.getElementById("categoriaServer").value;
-      var comentario = document.getElementById("comentarioServer").value;
-      var imagem = document.getElementById("imagemServer").value;
+            <input type="hidden" name="idUsuario" id="idUsuario">
 
-      if (destino == "") {
-        alert("Preencha o campo Destino");
-        return;
-      }
-      if (dtViagem == "") {
-        alert("Preencha o campo Data da Viagem");
-        return;
-      }
-      if (duracao == "") {
-        alert("Preencha o campo Duração");
-        return;
-      }
-      if (companhia == "") {
-        alert("Preencha o campo Companhia");
-        return;
-      }
-      if (categoria == "") {
-        alert("Preencha o campo Categoria");
-        return;
-      }
-      if (comentario == "") {
-        alert("Preencha o campo Comentário");
-        return;
-      }
-      if (imagem == "") {
-        alert("Preencha o campo Imagem");
-        return;
-      }
+            <button type="button" onclick="autenticar()">Salvar Viagem</button>
+        </form>
+    </div>
 
-      fetch("/viagens/cadastrar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          destinoServer: destino,
-          dtViagemServer: dtViagem,
-          duracaoServer: duracao,
-          companhiaServer: companhia,
-          categoriaServer: categoria,
-          comentarioServer: comentario,
-          imagemServer: imagem
-        })
-      }).then(function (resposta) {
-        if (resposta.ok) {
-          document.getElementById("mensagem").innerHTML = "Viagem cadastrada com sucesso!";
-          document.getElementById("formCadastro").reset();
-        } else {
-          resposta.text().then(texto => {
-            document.getElementById("mensagem").innerHTML = "Erro: " + texto;
-          });
+    <script>
+        function autenticar() {
+            const destino = document.querySelector('input[name="destino"]');
+            const dtViagem = document.querySelector('input[name="dtViagem"]');
+            const duracao = document.querySelector('input[name="duracao"]');
+            const companhia = document.querySelector('select[name="companhia"]');
+            const categoria = document.querySelector('select[name="categoria"]');
+            const comentario = document.querySelector('textarea[name="comentario"]');
+            const foto = document.querySelector('input[name="fotoViagem"]');
+            const idUsuario = document.getElementById("idUsuario");
+
+            const formData = new FormData();
+            formData.append("destino", destino.value);
+            formData.append("dtViagem", dtViagem.value);
+            formData.append("duracao", duracao.value);
+            formData.append("companhia", companhia.value);
+            formData.append("categoria", categoria.value);
+            formData.append("comentario", comentario.value);
+            formData.append("fotoViagem", foto.files[0]);
+            formData.append("idUsuario", idUsuario.value);
+
+            fetch("/viagens/cadastrar", {
+                method: "POST",
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.mensagem || data.erro);
+                    if (!data.erro) document.getElementById("form-viagem").reset();
+                })
+                .catch(err => {
+                    console.error("Erro ao enviar:", err);
+                    alert("Erro no envio da viagem.");
+                });
         }
-      }).catch(function (erro) {
-        document.getElementById("mensagem").innerHTML = "Erro na conexão com o servidor.";
-      });
-    }
-  </script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const idUsuario = sessionStorage.getItem("id_usuario_logado");
+            if (!idUsuario) {
+                alert("Você precisa estar logado para cadastrar uma viagem.");
+                window.location.href = "login.html";
+            } else {
+                document.getElementById("idUsuario").value = idUsuario;
+            }
+        });
+    </script>
+
 </body>
+
 </html>
