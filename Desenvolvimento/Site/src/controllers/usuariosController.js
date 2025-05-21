@@ -10,21 +10,28 @@ function autenticar(req, res) {
     res.status(400).send("Sua senha está undefined!");
   } else {
     usuarioModel.autenticar(email, senha)
-      .then((resultado) => {
+      .then(function (resultado) {
         if (resultado.length == 1) {
-          res.json(resultado[0]);
+          res.json({
+            idUsuario: resultado[0].idUsuario,
+            nome: resultado[0].nome,
+            email: resultado[0].email
+          });
         } else if (resultado.length == 0) {
           res.status(403).send("Email e/ou senha inválidos");
         } else {
-          res.status(403).send("Mais de um usuário com o mesmo login e senha!");
+          // este ELSE nunca deveria acontecer com LIMIT 1
+          console.warn("ALERTA: SELECT retornou múltiplos registros mesmo com LIMIT 1");
+          res.status(500).send("Erro inesperado: múltiplos usuários encontrados.");
         }
       })
-      .catch((erro) => {
-        console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+      .catch(function (erro) {
+        console.log("ERRO NO LOGIN:", erro.sqlMessage);
         res.status(500).json(erro.sqlMessage);
       });
   }
 }
+
 
 function cadastrar(req, res) {
   var nome = req.body.nomeServer;

@@ -1,105 +1,136 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Viagem.Log | Cadastrar Viagem</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viagem.Log | Cadastro Viagem</title>
+    <script src="./js/sessao.js"></script>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
 </head>
 
 <body>
+    <header>
+        <div class="topo">
+            <div class="logo">
+                <img src="./img/logo.png">
+            </div>
+            <div class="links">
+                <a href="#">ENTRAR</a><span>|</span><a href="cadastro.html">CADASTRAR</a>
+            </div>
+        </div>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <span>•</span>
+            <a href="index.html#categorias">Categorias</a>
+            <span>•</span>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+    </header>
 
-    <div class="form-container">
-        <h2>Cadastrar Viagem</h2>
+    <main>
+        <section class="formulario-cadastro">
+            <h2>Registre sua experiência!</h2>
+            <form id="form-cadastro" enctype="multipart/form-data">
+                <span>Destino</span>
+                <input type="text" id="destino_input" name="destino" required>
 
-        <form name="formCadastroViagem" id="formCadastroUsuario" enctype="multipart/form-data">
-            <span>Destino</span>
-            <input type="text" name="destino" required>
+                <span>Data da Viagem</span>
+                <input type="date" id="data_input" name="dtViagem" required>
 
-            <span>Data da Viagem</span>
-            <input type="date" name="dtViagem" required>
+                <span>Duração</span>
+                <input type="number" id="duracao_input" name="duracao" required>
 
-            <span>Duração (em dias)</span>
-            <input type="number" name="duracao" required min="1">
+                <span>Companhia</span>
+                <select id="companhia_input" name="companhia" required>
+                    <option value="">Selecione</option>
+                    <option value="sozinho">Sozinho</option>
+                    <option value="amigos">Amigos</option>
+                    <option value="familia">Família</option>
+                    <option value="conjuge">Cônjuge</option>
+                </select>
 
-            <span>Companhia</span>
-            <select name="companhia" required>
-                <option value="">Selecione</option>
-                <option value="sozinho">Sozinho</option>
-                <option value="amigos">Amigos</option>
-                <option value="familia">Família</option>
-                <option value="conjuge">Cônjuge</option>
-            </select>
+                <span>Categoria</span>
+                <select id="categoria_input" name="categoria" required>
+                    <option value="">Selecione</option>
+                    <option value="Praia">Praia</option>
+                    <option value="Cidade Grande">Cidade Grande</option>
+                    <option value="Natureza/Aventura">Natureza/Aventura</option>
+                    <option value="Histórico/Cultural">Histórico/Cultural</option>
+                </select>
 
-            <span>Categoria</span>
-            <select name="categoria" required>
-                <option value="">Selecione</option>
-                <option value="Praia">Praia</option>
-                <option value="Cidade Grande">Cidade Grande</option>
-                <option value="Natureza/Aventura">Natureza/Aventura</option>
-                <option value="Histórico/Cultural">Histórico/Cultural</option>
-            </select>
+                <span>Comentário</span>
+                <textarea id="comentario_input" name="comentario" required></textarea>
 
-            <span>Comentário</span>
-            <textarea name="comentario" rows="4" placeholder="Como foi sua viagem?" required></textarea>
+                <span>Foto</span>
+                <input type="file" id="foto_input" name="fotoViagem" accept="image/*" required>
 
-            <span>Foto</span>
-            <input type="file" name="fotoViagem" accept="image/*" required>
+                <button type="button" onclick="autenticar()">Cadastrar Viagem</button>
+            </form>
+        </section>
+    </main>
 
-            <input type="hidden" name="idUsuario" id="idUsuario">
-
-            <button type="button" onclick="autenticar()">Salvar Viagem</button>
-        </form>
-    </div>
-
-    <script>
-        function autenticar() {
-            const destino = document.querySelector('input[name="destino"]');
-            const dtViagem = document.querySelector('input[name="dtViagem"]');
-            const duracao = document.querySelector('input[name="duracao"]');
-            const companhia = document.querySelector('select[name="companhia"]');
-            const categoria = document.querySelector('select[name="categoria"]');
-            const comentario = document.querySelector('textarea[name="comentario"]');
-            const foto = document.querySelector('input[name="fotoViagem"]');
-            const idUsuario = document.getElementById("idUsuario");
-
-            const formData = new FormData();
-            formData.append("destino", destino.value);
-            formData.append("dtViagem", dtViagem.value);
-            formData.append("duracao", duracao.value);
-            formData.append("companhia", companhia.value);
-            formData.append("categoria", categoria.value);
-            formData.append("comentario", comentario.value);
-            formData.append("fotoViagem", foto.files[0]);
-            formData.append("idUsuario", idUsuario.value);
-
-            fetch("/viagens/cadastrar", {
-                method: "POST",
-                body: formData
-            })
-                .then(res => res.json())
-                .then(data => {
-                    alert(data.mensagem || data.erro);
-                    if (!data.erro) document.getElementById("form-viagem").reset();
-                })
-                .catch(err => {
-                    console.error("Erro ao enviar:", err);
-                    alert("Erro no envio da viagem.");
-                });
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const idUsuario = sessionStorage.getItem("id_usuario_logado");
-            if (!idUsuario) {
-                alert("Você precisa estar logado para cadastrar uma viagem.");
-                window.location.href = "login.html";
-            } else {
-                document.getElementById("idUsuario").value = idUsuario;
-            }
-        });
-    </script>
-
+    <footer>
+        <div class="container-footer">
+            <div id="social">
+                <a href="https://www.linkedin.com/in/camila-yukari-jodai-330676271/" target="_blank"><img
+                        src="./img/linkedin.png"></a>
+                <a href="https://github.com/CamilaYukariJodai" target="_blank"><img src="./img/github.png"></a>
+            </div>
+            <div id="copyright">
+                <p>© 2025 - Viagem.Log / Este site é um projeto de aprendizagem</p>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>
+
+<script>
+    function autenticar() {
+        var destino = document.getElementById("destino_input").value;
+        var dtViagem = document.getElementById("data_input").value;
+        var duracao = document.getElementById("duracao_input").value;
+        var companhia = document.getElementById("companhia_input").value;
+        var categoria = document.getElementById("categoria_input").value;
+        var comentario = document.getElementById("comentario_input").value;
+        var foto = document.getElementById("foto_input");
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        if (!destino || !dtViagem || !duracao || !companhia || !categoria || !comentario || !foto.files[0]) {
+            alert("Preencha todos os campos!");
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("destino", destino);
+        formData.append("dtViagem", dtViagem);
+        formData.append("duracao", duracao);
+        formData.append("companhia", companhia);
+        formData.append("categoria", categoria);
+        formData.append("comentario", comentario);
+        formData.append("fotoViagem", foto.files[0]);
+        formData.append("idUsuario", idUsuario);
+
+        fetch("/viagens/cadastrar", {
+            method: "POST",
+            body: formData
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    alert("Viagem cadastrada com sucesso!");
+                    document.getElementById("form-viagem").reset();
+                } else {
+                    resposta.text().then(function (texto) {
+                        console.error(texto);
+                        alert("Erro: " + texto);
+                    });
+                }
+            })
+            .catch(function (erro) {
+                console.error("Erro na requisição:", erro);
+                alert("Erro ao enviar a viagem.");
+            });
+    }
+</script>
