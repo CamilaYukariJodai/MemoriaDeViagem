@@ -18,6 +18,21 @@ function cadastrar(req, res) {
     viagemModel.cadastrarViagem(destino, dtViagem, duracao, companhia, categoria, comentario, imagem, idUsuario, res);
 }
 
+function listar(req, res) {
+    var idUsuario = req.params.idUsuario;
+
+    viagemModel.listar(idUsuario, function (erro, resultado) {
+        if (erro) {
+            console.log("ERRO NO LISTAR:", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        } else {
+            res.json(resultado);
+        }
+    });
+}
+
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    listar
 };

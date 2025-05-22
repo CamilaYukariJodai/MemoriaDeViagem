@@ -37,35 +37,35 @@
     </div>
 
     <script>
-        var idUsuario = sessionStorage.getItem("ID_USUARIO");
+        const idUsuario = sessionStorage.getItem("ID_USUARIO");
 
         function logout() {
             sessionStorage.clear();
             window.location.href = "../index.html";
         }
 
-        function carregarTabelaViagens() {
-            fetch("/viagens/listar/" + idUsuario).then(function (resposta) {
-                if (resposta.ok) {
-                    resposta.json().then(function (dados) {
-                        var tabela = "";
-                        for (var i = 0; i < dados.length; i++) {
-                            tabela += `<tr>
-                <td>${dados[i].destino}</td>
-                <td>${dados[i].dtViagem}</td>
-                <td>${dados[i].duracao} dias</td>
-                <td>${dados[i].companhia}</td>
-                <td>${dados[i].categoria}</td>
-                <td>${dados[i].comentario}</td>
-              </tr>`;
-                        }
-                        document.getElementById("tabelaViagens").innerHTML = tabela;
+        function listarViagens() {
+            fetch(`/viagens/listar/${idUsuario}`)
+                .then(res => res.json())
+                .then(dados => {
+                    const tabela = document.getElementById("tabelaViagens");
+
+                    dados.forEach((viagem) => {
+                        const linha = document.createElement("tr");
+                        linha.innerHTML = `
+            <td>${viagem.destino}</td>
+            <td>${new Date(viagem.dtViagem).toLocaleDateString()}</td>
+            <td>${viagem.duracao}</td>
+            <td>${viagem.companhia}</td>
+            <td>${viagem.categoria}</td>
+            <td>${viagem.comentario}</td>
+          `;
+                        tabela.appendChild(linha);
                     });
-                }
-            });
+                });
         }
 
-        carregarTabelaViagens();
+        listarViagens();
     </script>
 </body>
 

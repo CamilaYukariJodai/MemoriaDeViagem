@@ -32,6 +32,24 @@ function cadastrarViagem(destino, dtViagem, duracao, companhia, categoria, comen
     });
 }
 
+function listarViagensUsuario(idUsuario, res) {
+    var instrucao = `
+        SELECT v.destino, v.dtViagem, v.duracao, v.companhia, v.categoria, v.comentario
+        FROM viagens v
+        JOIN userViagem uv ON v.idViagem = uv.idViagem
+        WHERE uv.idUsuario = ${idUsuario};
+    `;
+    db.query(instrucao, function (erro, resultado) {
+        if (erro) {
+            res.status(500).json(erro);
+        } else {
+            res.status(200).json(resultado);
+        }
+    });
+}
+
+
 module.exports = {
-    cadastrarViagem
+    cadastrarViagem,
+    listarViagensUsuario
 };
