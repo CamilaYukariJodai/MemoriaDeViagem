@@ -19,6 +19,6 @@ router.post("/cadastrar", upload.single("fotoViagem"), function (req, res) {
     viagensController.cadastrar(req, res);
 });
 
-router.get("/listar/:idUsuario", viagensController.listar);
+// router.get("/listar/:idUsuario", viagensController.listar);
 
 module.exports = router;

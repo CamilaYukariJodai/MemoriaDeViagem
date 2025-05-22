@@ -8,19 +8,12 @@ const conexao = mysql.createConnection({
   port: process.env.DB_PORT
 });
 
-function executar(instrucao) {
-  return new Promise(function (resolve, reject) {
-    conexao.query(instrucao, function (erro, resultados) {
-      if (erro) {
-        reject(erro);
-      } else {
-        resolve(resultados);
-      }
-    });
-  });
-}
+conexao.connect(function (erro) {
+    if (erro) {
+        console.error("Erro na conexão com o banco:", erro.sqlMessage);
+        return;
+    }
+    console.log("Conectado ao banco com sucesso!");
+});
 
-module.exports = {
-  conexao,
-  executar
-};
+module.exports = conexao;

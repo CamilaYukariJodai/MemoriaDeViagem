@@ -18,20 +18,20 @@ function cadastrar(req, res) {
     viagemModel.cadastrarViagem(destino, dtViagem, duracao, companhia, categoria, comentario, imagem, idUsuario, res);
 }
 
-function listar(req, res) {
-    var idUsuario = req.params.idUsuario;
+// function listar(req, res) {
+//     var idUsuario = req.params.idUsuario;
 
-    viagemModel.listar(idUsuario)
-        .then(function (resultado) {
-            res.status(200).json(resultado);
-        })
-        .catch(function (erro) {
-            res.status(500).json(erro.sqlMessage);
-        });
-}
+//     viagemModel.listar(idUsuario)
+//         .then(function (resultado) {
+//             res.status(200).json(resultado);
+//         })
+//         .catch(function (erro) {
+//             res.status(500).json(erro.sqlMessage);
+//         });
+// }
 
 
 module.exports = {
     cadastrar,
-    listar
+    // listar
 };

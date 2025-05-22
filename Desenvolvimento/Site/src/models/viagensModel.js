@@ -11,20 +11,20 @@ function cadastrarViagem(destino, data, duracao, companhia, categoria, comentari
     SELECT ${idUsuario}, MAX(idViagem) FROM viagens;
   `;
 
-  return database.executar(instrucao + instrucao2);
+  return database.query(instrucao + instrucao2);
 }
 
-function listar(idUsuario) {
-  var instrucao = `
-    SELECT v.destino, v.dtViagem, v.duracao, v.companhia, v.categoria, v.comentario
-    FROM viagens v
-    JOIN userViagem uv ON uv.idViagem = v.idViagem
-    WHERE uv.idUsuario = ${idUsuario};
-  `;
-  return database.executar(instrucao);
-}
+// function listar(idUsuario) {
+//   var instrucao = `
+//     SELECT v.destino, v.dtViagem, v.duracao, v.companhia, v.categoria, v.comentario
+//     FROM viagens v
+//     JOIN userViagem uv ON uv.idViagem = v.idViagem
+//     WHERE uv.idUsuario = ${idUsuario};
+//   `;
+//   return database.executar(instrucao);
+// }
 
 module.exports = {
   cadastrarViagem,
-  listar
+  // listar
 };
