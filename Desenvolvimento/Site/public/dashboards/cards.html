@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Viagem.Log | Dashboard</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 </head>
 
@@ -20,21 +22,21 @@
     <div class="main-content">
         <div class="cards">
             <div class="card">
-                <h3>Categoria mais visitada</h3>
-                <p id="categoriaMais">...</p>
+                <h3>Categoria mais procurada</h3>
+                <span id="categoriaMais"></span>
             </div>
             <div class="card">
                 <h3>Média de duração</h3>
-                <p id="mediaDuracao">...</p>
+                <span id="mediaDuracao"></span>
             </div>
             <div class="card">
                 <h3>Suas viagens</h3>
-                <p id="totalUsuario">...</p>
+                <span id="totalUsuario"></span>
             </div>
         </div>
 
         <div class="chart-container">
-            <h3>Distribuição por Companhia</h3>
+            <h3>Resumo Geral: Acompanhantes das Viagens</h3>
             <canvas id="companhiaChart"></canvas>
         </div>
     </div>
@@ -44,7 +46,7 @@
 
         function logout() {
             sessionStorage.clear();
-            window.location.href = "index.html";
+            window.location.href = "../index.html";
         }
 
         function carregarIndicadores() {
@@ -92,12 +94,9 @@
                                 datasets: [{
                                     label: "Companhias",
                                     data: valores,
-                                    backgroundColor: ["#3ca6d4", "#FBA24E", "#4CAF50", "#9C27B0"]
+                                    backgroundColor: ["#A7E9D0", "#6E7F80", "#FFF3B0", "#F88379"]
                                 }]
                             },
-                            options: {
-                                responsive: true
-                            }
                         });
                     });
                 }
