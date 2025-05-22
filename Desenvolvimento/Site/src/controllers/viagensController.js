@@ -21,14 +21,13 @@ function cadastrar(req, res) {
 function listar(req, res) {
     var idUsuario = req.params.idUsuario;
 
-    viagemModel.listar(idUsuario, function (erro, resultado) {
-        if (erro) {
-            console.log("ERRO NO LISTAR:", erro.sqlMessage);
+    viagemModel.listar(idUsuario)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
             res.status(500).json(erro.sqlMessage);
-        } else {
-            res.json(resultado);
-        }
-    });
+        });
 }
 
 
