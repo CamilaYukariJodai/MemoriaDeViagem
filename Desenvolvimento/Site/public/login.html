@@ -67,12 +67,9 @@
         var senhaVar = senha_input.value;
 
         if (emailVar == "" || senhaVar == "") {
-            alert("Todos os campos devem ser preenchidos!");
-            return;
+            alert("Preencha todos os campos!");
+            return false;
         }
-
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
 
         fetch("/usuarios/autenticar", {
             method: "POST",
@@ -83,40 +80,23 @@
                 emailServer: emailVar,
                 senhaServer: senhaVar
             })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-
-                resposta.json().then(json => {
-
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.idUsuario;
-
-                    alert("Usuário logado com sucesso! Redirecionando para o cadastro de viagem...")
-
-                    setTimeout(() => {
-                        window.location.href = "cadastroviagem.html";
-                    }, 1000);
-                });
-
-            } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
-            }
-
-        }).catch(function (erro) {
-            console.log(erro);
         })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    throw new Error("Erro no login");
+                }
+            })
+            .then(function (dados) {
+                // Aqui você pode armazenar informações do usuário, se necessário
+                alert("Login realizado com sucesso!");
+                window.location.href = "cadastroviagem.html";
+            })
+            .catch(function (erro) {
+                console.error(erro);
+                alert("Erro ao realizar login.");
+            });
 
         return false;
     }
