@@ -1,4 +1,4 @@
-var database = require("../database/conexao");
+var executar = require("../database/conexao");
 
 function cadastrarViagem(destino, data, duracao, companhia, categoria, comentario, imagem, idUsuario) {
   var instrucao = `
@@ -11,7 +11,7 @@ function cadastrarViagem(destino, data, duracao, companhia, categoria, comentari
     SELECT ${idUsuario}, MAX(idViagem) FROM viagens;
   `;
 
-  return database.query(instrucao + instrucao2);
+  return executar.query(instrucao + instrucao2);
 }
 
 // function listar(idUsuario) {

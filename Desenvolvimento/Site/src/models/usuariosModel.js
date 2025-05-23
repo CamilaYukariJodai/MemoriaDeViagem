@@ -1,4 +1,4 @@
-var conexao = require("../database/conexao");
+var executar = require("../database/conexao");
 
 function cadastrar(nome, email, senha, res) {
     var instrucao = `
@@ -6,7 +6,7 @@ function cadastrar(nome, email, senha, res) {
         VALUES ('${nome}', '${email}', '${senha}');
     `;
 
-    conexao.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             console.log("Erro ao cadastrar usuário:", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
@@ -24,7 +24,7 @@ function autenticar(email, senha, res) {
         LIMIT 1;
     `;
 
-    conexao.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             console.log("Erro ao autenticar:", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);

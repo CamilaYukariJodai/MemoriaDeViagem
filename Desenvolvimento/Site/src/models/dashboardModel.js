@@ -1,8 +1,8 @@
-var db = require("../database/conexao");
+var executar = require("../database/conexao");
 
 function totalViagens(res) {
     var instrucao = `SELECT COUNT(*) AS total FROM viagens;`;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
@@ -19,7 +19,7 @@ function destinoMaisVisitado(res) {
         ORDER BY qtd DESC
         LIMIT 1;
     `;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
@@ -30,7 +30,7 @@ function destinoMaisVisitado(res) {
 
 function mediaDuracao(res) {
     var instrucao = `SELECT ROUND(AVG(duracao), 1) AS media FROM viagens;`;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
@@ -41,7 +41,7 @@ function mediaDuracao(res) {
 
 function totalUsuarios(res) {
     var instrucao = `SELECT COUNT(*) AS total FROM usuarios;`;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
@@ -58,7 +58,7 @@ function graficoCompanhia(idUsuario, res) {
         WHERE uv.idUsuario = ${idUsuario}
         GROUP BY companhia;
     `;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
@@ -76,7 +76,7 @@ function ultimasViagens(idUsuario, res) {
         ORDER BY v.dtViagem DESC
         LIMIT 5;
     `;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
@@ -95,7 +95,7 @@ function categoriaMaisVisitada(idUsuario, res) {
         ORDER BY qtd DESC
         LIMIT 1;
     `;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
@@ -110,7 +110,7 @@ function totalViagensUsuario(idUsuario, res) {
         FROM userViagem
         WHERE idUsuario = ${idUsuario};
     `;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
@@ -125,7 +125,7 @@ function graficoCompanhiaGeral(res) {
         FROM viagens
         GROUP BY companhia;
     `;
-    db.query(instrucao, function (erro, resultado) {
+    executar.query(instrucao, function (erro, resultado) {
         if (erro) {
             res.status(500).json(erro);
         } else {
