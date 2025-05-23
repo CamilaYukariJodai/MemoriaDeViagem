@@ -1,17 +1,21 @@
 var executar = require("../database/conexao");
 
 function cadastrarViagem(destino, data, duracao, companhia, categoria, comentario, imagem, idUsuario) {
-  var instrucao = `
+  var instrucao1 = `
     INSERT INTO viagens (destino, dtViagem, duracao, companhia, categoria, comentario, imagem)
     VALUES ('${destino}', '${data}', ${duracao}, '${companhia}', '${categoria}', '${comentario}', '${imagem}');
   `;
 
-  var instrucao2 = `
-    INSERT INTO userViagem (idUsuario, idViagem)
-    SELECT ${idUsuario}, MAX(idViagem) FROM viagens;
-  `;
+  return executar(instrucao1).then(resultado => {
+    var idViagem = resultado.insertId;
 
-  return executar.query(instrucao + instrucao2);
+    var instrucao2 = `
+      INSERT INTO userViagem (idUsuario, idViagem)
+      VALUES (${idUsuario}, ${idViagem});
+    `;
+
+    return executar(instrucao2);
+  });
 }
 
 // function listar(idUsuario) {

@@ -1,6 +1,6 @@
-var mysql = require("mysql2");
+const mysql = require("mysql2");
 
-var connection = mysql.createConnection({
+const conexao = mysql.createConnection({
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
   user: process.env.DB_USER,
@@ -8,17 +8,17 @@ var connection = mysql.createConnection({
   port: process.env.DB_PORT
 });
 
-connection.connect(function (erro) {
+conexao.connect(function (erro) {
   if (erro) {
-    console.error("Erro na conexão com o banco: ", erro.sqlMessage);
+    console.error("Erro na conexão com o banco:", erro.sqlMessage);
     return;
   }
-  console.log("Conectado com sucesso ao MySQL!");
+  console.log("Conectado ao banco com sucesso!");
 });
 
 function executar(instrucao) {
   return new Promise(function (resolve, reject) {
-    connection.query(instrucao, function (erro, resultados) {
+    conexao.query(instrucao, function (erro, resultados) {
       if (erro) {
         reject(erro);
       } else {
