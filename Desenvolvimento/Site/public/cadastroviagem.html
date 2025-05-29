@@ -89,7 +89,7 @@
 
 <script>
     function autenticar() {
-        console.log("oiiii")
+        
         var destino = document.getElementById("destino_input").value;
         var dtViagem = document.getElementById("data_input").value;
         var duracao = document.getElementById("duracao_input").value;
@@ -159,9 +159,9 @@
 
                         })
 
-                    // setTimeout(() => {
-                    //     window.location.href = "./dashboards/cards.html";
-                    // }, 1000);
+                    setTimeout(() => {
+                        window.location.href = "./dashboards/cards.html";
+                    }, 1000);
                 } else {
                     resposta.text().then(function (texto) {
                         console.error(texto);
