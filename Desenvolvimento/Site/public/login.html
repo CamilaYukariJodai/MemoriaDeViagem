@@ -89,7 +89,8 @@
                 }
             })
             .then(function (dados) {
-                // Aqui você pode armazenar informações do usuário, se necessário
+                sessionStorage.ID_USUARIO = dados.id;
+                sessionStorage.NOME_USUARIO = dados.nome;
                 alert("Login realizado com sucesso!");
                 window.location.href = "cadastroviagem.html";
             })

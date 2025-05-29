@@ -19,6 +19,20 @@ router.post("/cadastrar", upload.single("fotoViagem"), function (req, res) {
     viagensController.cadastrar(req, res);
 });
 
+router.post("/associar-viagem/:idUsuario/:idViagem", function (req, res) {
+    console.log(req.params);
+
+    viagensController.registrarUsuarioViagem(req, res);
+});
+
+router.get("/buscar-viagens", function (req, res) {
+    viagensController.buscarViagens(req, res);
+})
+
+router.get("/imagens/:idUsuario/:idViagem", function (req, res) {
+    viagensController.retornarImagens(req, res);
+})
+
 // router.get("/listar/:idUsuario", viagensController.listar);
 
 module.exports = router;

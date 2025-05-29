@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Página de teste!</h1>
+
+    <img id="img_teste" src="" alt="">
+
+    <button onclick="buscarViagens()">Buscar</button>
+
+    <div id="div_viagens"></div>
+</body>
+
+</html>
+
+<script>
+
+    function buscarViagens() {
+        fetch('/viagens/buscar-viagens')
+            .then(function (resposta) {
+                console.log("busquei");
+                if (resposta.ok) {
+                    resposta.json()
+                        .then(function (respostaJSON) {
+                            console.log('viagens: ', respostaJSON);
+                            var mensagem = "";
+                            for (var i = 0; i < respostaJSON.length; i++) {
+                                var viagemAtual = respostaJSON[i];
+                                var dtCadastro = viagemAtual.dtCadastro;
+                                var idUsuario = viagemAtual.idUsuario;
+                                var idViagem = viagemAtual.idViagem;
+                                mensagem += `
+
+                            <div onclick="buscarImagem(${idUsuario}, ${idViagem})">
+                    dtCadastro: ${dtCadastro} | idUsuario: ${idUsuario} | idViagem: ${idViagem} <br><br>
+                                </div>
+                    
+                    
+                    `;
+                            }
+                            div_viagens.innerHTML = mensagem
+                        })
+                }
+            })
+    }
+
+    function buscarImagem(idUsuario, idViagem) {
+        fetch(`/viagens/imagens/${idUsuario}/${idViagem}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json()
+                        .then(function (respostaJSON) {
+                            console.log('respostaJSON: ', respostaJSON)
+                            console.log('imagem:', respostaJSON.imagem)
+
+                            img_teste.src = `../uploads/${respostaJSON.imagem}`;
+                        })
+                }
+            })
+            .catch(function (erro) {
+                alert(erro);
+            })
+    }
+
+</script>

@@ -89,6 +89,7 @@
 
 <script>
     function autenticar() {
+        console.log("oiiii")
         var destino = document.getElementById("destino_input").value;
         var dtViagem = document.getElementById("data_input").value;
         var duracao = document.getElementById("duracao_input").value;
@@ -120,9 +121,47 @@
             .then(function (resposta) {
                 if (resposta.ok) {
                     alert("Viagem cadastrada com sucesso!");
-                    setTimeout(() => {
-                        window.location.href = "./dashboards/cards.html";
-                    }, 1000);
+
+                    console.log(resposta)
+
+                    resposta.json()
+                        .then((respostaJSON) => {
+                            console.log(respostaJSON)
+                            console.log(respostaJSON.insertId)
+
+                            var dados = {
+                                idUsuario: sessionStorage.ID_USUARIO,
+                                idViagem: respostaJSON.insertId
+                            }
+
+                            console.log(dados);
+
+                            fetch(`/viagens/associar-viagem/${dados.idUsuario}/${dados.idViagem}`, {
+                                method: "POST",
+                                body: JSON.stringify(dados)
+                            }).then(function (resposta2) {
+                                if (resposta2.ok) {
+                                    resposta2.json()
+                                        .then(function (respostaJSON2) {
+                                            console.log('respostaJSON2', respostaJSON2)
+                                        })
+                                }
+                            })
+                                .catch(function (erro) {
+                                    alert(erro);
+                                })
+
+
+                            // var idUsuario = sessionStorage.ID_USUARIO;
+                            // if (idUsuario) {
+                            // };
+
+
+                        })
+
+                    // setTimeout(() => {
+                    //     window.location.href = "./dashboards/cards.html";
+                    // }, 1000);
                 } else {
                     resposta.text().then(function (texto) {
                         console.error(texto);

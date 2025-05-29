@@ -1,21 +1,38 @@
 var executar = require("../database/conexao");
 
-function cadastrarViagem(destino, data, duracao, companhia, categoria, comentario, imagem, idUsuario) {
+function cadastrarViagem(destino, dtViagem, duracao, companhia, categoria, comentario, imagem) {
   var instrucao1 = `
     INSERT INTO viagens (destino, dtViagem, duracao, companhia, categoria, comentario, imagem)
-    VALUES ('${destino}', '${data}', ${duracao}, '${companhia}', '${categoria}', '${comentario}', '${imagem}');
+    VALUES ('${destino}', '${dtViagem}', ${duracao}, '${companhia}', '${categoria}', '${comentario}', '${imagem}');
   `;
 
-  return executar(instrucao1).then(resultado => {
-    var idViagem = resultado.insertId;
+  return executar(instrucao1)
+}
 
-    var instrucao2 = `
-      INSERT INTO userViagem (idUsuario, idViagem)
+function registrarUsuarioViagem (idUsuario, idViagem) {
+  var instrucao = `
+     INSERT INTO userViagem (idUsuario, idViagem)
       VALUES (${idUsuario}, ${idViagem});
-    `;
+  `;
 
-    return executar(instrucao2);
-  });
+  return executar(instrucao);
+}
+
+function retornarImagens(idUsuario, idViagem) {
+  var instrucao = `
+    select v.imagem from userViagem uv 
+      join viagens v on uv.idViagem = v.idViagem 
+      join usuarios u on u.idUsuario = uv.idUsuario  
+      where u.idUsuario = ${idUsuario} AND v.idViagem = ${idViagem};
+  `;
+
+  return executar(instrucao);
+}
+
+function buscarViagens() {
+  var instrucao = `select * from userViagem`;
+
+  return executar(instrucao);
 }
 
 // function listar(idUsuario) {
@@ -30,5 +47,8 @@ function cadastrarViagem(destino, data, duracao, companhia, categoria, comentari
 
 module.exports = {
   cadastrarViagem,
+  registrarUsuarioViagem,
+  retornarImagens,
+  buscarViagens
   // listar
 };
