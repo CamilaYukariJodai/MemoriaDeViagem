@@ -43,17 +43,18 @@ function registrarUsuarioViagem(req, res) {
         }))
 }
 
-// function listar(req, res) {
-//     var idUsuario = req.params.idUsuario;
+function listar(req, res) {
+    var idUsuario = req.params.idUsuario;
 
-//     viagemModel.listar(idUsuario)
-//         .then(function (resultado) {
-//             res.status(200).json(resultado);
-//         })
-//         .catch(function (erro) {
-//             res.status(500).json(erro.sqlMessage);
-//         });
-// }
+    viagemModel.listar(idUsuario)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            console.log("Erro ao listar viagens:", erro.sqlMessage)
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
 
 function retornarImagens(req, res) {
@@ -84,6 +85,6 @@ module.exports = {
     cadastrar,
     registrarUsuarioViagem,
     retornarImagens,
-    buscarViagens
-    // listar
+    buscarViagens,
+    listar
 };

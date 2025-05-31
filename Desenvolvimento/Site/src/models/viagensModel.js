@@ -35,20 +35,21 @@ function buscarViagens() {
   return executar(instrucao);
 }
 
-// function listar(idUsuario) {
-//   var instrucao = `
-//     SELECT v.destino, v.dtViagem, v.duracao, v.companhia, v.categoria, v.comentario
-//     FROM viagens v
-//     JOIN userViagem uv ON uv.idViagem = v.idViagem
-//     WHERE uv.idUsuario = ${idUsuario};
-//   `;
-//   return database.executar(instrucao);
-// }
+function listar(idUsuario) {
+  var instrucao = `
+    SELECT v.*
+    FROM viagens v
+    JOIN userViagem uv ON v.idViagem = uv.idViagem
+    WHERE uv.idUsuario = ${idUsuario}
+    ORDER BY v.dtViagem DESC;
+  `;
+  return executar(instrucao);
+}
 
 module.exports = {
   cadastrarViagem,
   registrarUsuarioViagem,
   retornarImagens,
-  buscarViagens
-  // listar
+  buscarViagens,
+  listar
 };

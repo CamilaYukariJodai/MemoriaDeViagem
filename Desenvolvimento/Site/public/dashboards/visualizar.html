@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viagem.Log | Visualizar Viagens</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
+
+</head>
+
+<body>
+    <div class="sidebar">
+        <img src="../img/logo.png" alt="Logo">
+        <a href="cards.html">Dashboard</a>
+        <a href="../cadastroviagem.html">Cadastrar Viagens</a>
+        <a href="visualizar.html">Visualizar Viagens</a>
+        <a href="#" onclick="logout()">Sair</a>
+    </div>
+
+    <div class="main-content">
+        <div class="tabela-container">
+            <h3>Minhas Viagens Cadastradas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Destino</th>
+                        <th>Data</th>
+                        <th>Duração (em dias)</th>
+                        <th>Companhia</th>
+                        <th>Categoria</th>
+                        <th>Comentário</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaViagens"></tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+        var idUsuario = sessionStorage.getItem("ID_USUARIO");
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "../index.html";
+        }
+
+        function carregarTabelaViagens() {
+            fetch("/viagens/listar/" + idUsuario)
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        resposta.json().then(function (dados) {
+                            var tabela = "";
+                            for (var i = 0; i < dados.length; i++) {
+                                tabela += `<tr>
+                                <td><img src="../uploads/${dados[i].imagem}" width="150px"></td>
+                                <td>${dados[i].destino}</td>
+                                <td>${dados[i].dtViagem}</td>
+                                <td>${dados[i].duracao} dias</td>
+                                <td>${dados[i].companhia}</td>
+                                <td>${dados[i].categoria}</td>
+                                <td>${dados[i].comentario}</td>
+                            </tr>`;
+                            }
+
+                            document.getElementById("tabelaViagens").innerHTML = tabela;
+                        });
+                    } else {
+                        console.error("Erro ao buscar viagens.");
+                    }
+                })
+                .catch(function (erro) {
+                    console.error("Erro na requisição:", erro);
+                });
+        }
+
+        carregarTabelaViagens();
+    </script>

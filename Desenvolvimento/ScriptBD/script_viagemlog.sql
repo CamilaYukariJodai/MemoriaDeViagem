@@ -22,6 +22,7 @@ imagem varchar(255)
 create table userViagem (
 idUsuario int,
 idViagem int,
+dtCadastro datetime default current_timestamp,
 constraint pkComposta primary key (idUsuario, idViagem),
 constraint fkUsuarioViagem foreign key (idUsuario) references usuarios(idUsuario),
 constraint fkViagemUsuario foreign key (idViagem) references viagens(idViagem)
