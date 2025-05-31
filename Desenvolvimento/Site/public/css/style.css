@@ -322,7 +322,6 @@ footer {
     background: var(--branco);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
@@ -330,7 +329,6 @@ footer {
     background: var(--branco);
     border-radius: 10px;
     padding: 30px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 700px;
     align-self: center;
@@ -340,7 +338,6 @@ footer {
     background: var(--branco);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 table {

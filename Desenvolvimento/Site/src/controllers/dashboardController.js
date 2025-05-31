@@ -1,53 +1,48 @@
 var dashboardModel = require("../models/dashboardModel");
 
-function totalViagens(req, res) {
-    dashboardModel.totalViagens(res);
-}
+function categoriaMais(req, res) {
+    var idUsuario = req.params.idUsuario;
 
-function destinoMaisVisitado(req, res) {
-    dashboardModel.destinoMaisVisitado(res);
+    dashboardModel.categoriaMais(idUsuario).then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        console.log(erro);
+        res.status(500).json(erro.sqlMessage);
+    });
 }
 
 function mediaDuracao(req, res) {
-    dashboardModel.mediaDuracao(res);
+    dashboardModel.mediaDuracao().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        console.log(erro);
+        res.status(500).json(erro.sqlMessage);
+    });
 }
 
-function totalUsuarios(req, res) {
-    dashboardModel.totalUsuarios(res);
-}
-
-function graficoCompanhia(req, res) {
+function totalUsuario(req, res) {
     var idUsuario = req.params.idUsuario;
-    dashboardModel.graficoCompanhia(idUsuario, res);
+
+    dashboardModel.totalUsuario(idUsuario).then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        console.log(erro);
+        res.status(500).json(erro.sqlMessage);
+    });
 }
 
-function ultimasViagens(req, res) {
-    var idUsuario = req.params.idUsuario;
-    dashboardModel.ultimasViagens(idUsuario, res);
-}
-
-function categoriaMaisVisitada(req, res) {
-    var idUsuario = req.params.idUsuario;
-    dashboardModel.categoriaMaisVisitada(idUsuario, res);
-}
-
-function totalViagensUsuario(req, res) {
-    var idUsuario = req.params.idUsuario;
-    dashboardModel.totalViagensUsuario(idUsuario, res);
-}
-
-function graficoCompanhiaGeral(req, res) {
-    dashboardModel.graficoCompanhiaGeral(res);
+function companhiasGeral(req, res) {
+    dashboardModel.companhiasGeral().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        console.log(erro);
+        res.status(500).json(erro.sqlMessage);
+    });
 }
 
 module.exports = {
-    totalViagens,
-    destinoMaisVisitado,
+    categoriaMais,
     mediaDuracao,
-    totalUsuarios,
-    graficoCompanhia,
-    ultimasViagens,
-    categoriaMaisVisitada,
-    totalViagensUsuario,
-    graficoCompanhiaGeral
+    totalUsuario,
+    companhiasGeral
 };

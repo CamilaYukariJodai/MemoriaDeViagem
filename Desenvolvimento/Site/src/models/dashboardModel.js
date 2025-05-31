@@ -1,147 +1,47 @@
 var executar = require("../database/conexao");
 
-function totalViagens(res) {
-    var instrucao = `SELECT COUNT(*) AS total FROM viagens;`;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
-}
-
-function destinoMaisVisitado(res) {
+function categoriaMais(idUsuario) {
     var instrucao = `
-        SELECT destino, COUNT(*) AS qtd
+        SELECT categoria, COUNT(*) as total
         FROM viagens
-        GROUP BY destino
-        ORDER BY qtd DESC
-        LIMIT 1;
-    `;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
-}
-
-function mediaDuracao(res) {
-    var instrucao = `SELECT ROUND(AVG(duracao), 1) AS media FROM viagens;`;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
-}
-
-function totalUsuarios(res) {
-    var instrucao = `SELECT COUNT(*) AS total FROM usuarios;`;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
-}
-
-function graficoCompanhia(idUsuario, res) {
-    var instrucao = `
-        SELECT companhia, COUNT(*) AS qtd
-        FROM viagens v
-        JOIN userViagem uv ON v.idViagem = uv.idViagem
-        WHERE uv.idUsuario = ${idUsuario}
-        GROUP BY companhia;
-    `;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
-}
-
-function ultimasViagens(idUsuario, res) {
-    var instrucao = `
-        SELECT destino, dtViagem, categoria
-        FROM viagens v
-        JOIN userViagem uv ON v.idViagem = uv.idViagem
-        WHERE uv.idUsuario = ${idUsuario}
-        ORDER BY v.dtViagem DESC
-        LIMIT 5;
-    `;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
-}
-
-function categoriaMaisVisitada(idUsuario, res) {
-    var instrucao = `
-        SELECT categoria, COUNT(*) AS qtd
-        FROM viagens v
-        JOIN userViagem uv ON v.idViagem = uv.idViagem
-        WHERE uv.idUsuario = ${idUsuario}
+        JOIN userViagem ON viagens.idViagem = userViagem.idViagem
+        WHERE idUsuario = ${idUsuario}
         GROUP BY categoria
-        ORDER BY qtd DESC
+        ORDER BY total DESC
         LIMIT 1;
     `;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
+    return executar(instrucao);
 }
 
-function totalViagensUsuario(idUsuario, res) {
+function mediaDuracao() {
+    var instrucao = `
+        SELECT ROUND(AVG(duracao), 1) AS media
+        FROM viagens;
+    `;
+    return executar(instrucao);
+}
+
+function totalUsuario(idUsuario) {
     var instrucao = `
         SELECT COUNT(*) AS total
         FROM userViagem
         WHERE idUsuario = ${idUsuario};
     `;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
+    return executar(instrucao);
 }
 
-function graficoCompanhiaGeral(res) {
+function companhiasGeral() {
     var instrucao = `
-        SELECT companhia, COUNT(*) AS qtd
+        SELECT companhia, COUNT(*) as qtd
         FROM viagens
         GROUP BY companhia;
     `;
-    executar(instrucao, function (erro, resultado) {
-        if (erro) {
-            res.status(500).json(erro);
-        } else {
-            res.status(200).json(resultado);
-        }
-    });
+    return executar(instrucao);
 }
 
 module.exports = {
-    totalViagens,
-    destinoMaisVisitado,
+    categoriaMais,
     mediaDuracao,
-    totalUsuarios,
-    graficoCompanhia,
-    ultimasViagens,
-    categoriaMaisVisitada,
-    totalViagensUsuario,
-    graficoCompanhiaGeral
+    totalUsuario,
+    companhiasGeral
 };
