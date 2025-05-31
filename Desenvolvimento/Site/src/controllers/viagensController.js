@@ -62,23 +62,23 @@ function retornarImagens(req, res) {
     var idViagem = req.params.idViagem;
 
     viagemModel.retornarImagens(idUsuario, idViagem)
-    .then(function (resposta) {
-        console.log(resposta);
-        res.status(200).send(resposta[0]);
-    })
-    .catch(function (erro) {
-        res.status(500).send(erro)
-    })
+        .then(function (resposta) {
+            console.log(resposta);
+            res.status(200).send(resposta[0]);
+        })
+        .catch(function (erro) {
+            res.status(500).send(erro)
+        })
 }
 
 function buscarViagens(req, res) {
     viagemModel.buscarViagens()
-    .then(function (resposta) {
-        res.status(200).send(resposta);
-    })
-    .catch(function (erro) {
-        res.status(500).send(erro)
-    })
+        .then(function (resposta) {
+            res.status(200).send(resposta);
+        })
+        .catch(function (erro) {
+            res.status(500).send(erro)
+        })
 }
 
 module.exports = {

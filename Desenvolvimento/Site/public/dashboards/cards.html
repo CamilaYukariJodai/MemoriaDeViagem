@@ -48,67 +48,67 @@
 </html>
 
 <script>
-        var idUsuario = sessionStorage.getItem("ID_USUARIO");
+    var idUsuario = sessionStorage.getItem("ID_USUARIO");
 
-        function logout() {
-            sessionStorage.clear();
-            window.location.href = "../index.html";
-        }
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = "../index.html";
+    }
 
-        function carregarIndicadores() {
-            fetch("/dashboard/categoria-mais/" + idUsuario).then(function (resposta) {
-                if (resposta.ok) {
-                    resposta.json().then(function (dados) {
-                        document.getElementById("categoriaMais").innerText = dados[0].categoria;
+    function carregarIndicadores() {
+        fetch("/dashboard/categoria-mais/" + idUsuario).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    document.getElementById("categoriaMais").innerText = dados[0].categoria;
+                });
+            }
+        });
+
+        fetch("/dashboard/media-duracao").then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    document.getElementById("mediaDuracao").innerText = dados[0].media + " dias";
+                });
+            }
+        });
+
+        fetch("/dashboard/total-usuario/" + idUsuario).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    document.getElementById("totalUsuario").innerText = dados[0].total;
+                });
+            }
+        });
+    }
+
+    function carregarGraficoPizza() {
+        fetch("/dashboard/companhias-geral").then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dados) {
+                    var labels = [];
+                    var valores = [];
+
+                    for (var i = 0; i < dados.length; i++) {
+                        labels.push(dados[i].companhia);
+                        valores.push(dados[i].qtd);
+                    }
+
+                    new Chart(document.getElementById("companhiaChart"), {
+                        type: "pie",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: "Companhias",
+                                data: valores,
+                                backgroundColor: ["#A7E9D0", "#6E7F80", "#FFF3B0", "#F88379"]
+                            }]
+                        },
                     });
-                }
-            });
+                });
+            }
+        });
+    }
 
-            fetch("/dashboard/media-duracao").then(function (resposta) {
-                if (resposta.ok) {
-                    resposta.json().then(function (dados) {
-                        document.getElementById("mediaDuracao").innerText = dados[0].media + " dias";
-                    });
-                }
-            });
-
-            fetch("/dashboard/total-usuario/" + idUsuario).then(function (resposta) {
-                if (resposta.ok) {
-                    resposta.json().then(function (dados) {
-                        document.getElementById("totalUsuario").innerText = dados[0].total;
-                    });
-                }
-            });
-        }
-
-        function carregarGraficoPizza() {
-            fetch("/dashboard/companhias-geral").then(function (resposta) {
-                if (resposta.ok) {
-                    resposta.json().then(function (dados) {
-                        var labels = [];
-                        var valores = [];
-
-                        for (var i = 0; i < dados.length; i++) {
-                            labels.push(dados[i].companhia);
-                            valores.push(dados[i].qtd);
-                        }
-
-                        new Chart(document.getElementById("companhiaChart"), {
-                            type: "pie",
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    label: "Companhias",
-                                    data: valores,
-                                    backgroundColor: ["#A7E9D0", "#6E7F80", "#FFF3B0", "#F88379"]
-                                }]
-                            },
-                        });
-                    });
-                }
-            });
-        }
-
-        carregarIndicadores();
-        carregarGraficoPizza();
-    </script>
+    carregarIndicadores();
+    carregarGraficoPizza();
+</script>

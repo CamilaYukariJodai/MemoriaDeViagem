@@ -9,7 +9,7 @@ function cadastrarViagem(destino, dtViagem, duracao, companhia, categoria, comen
   return executar(instrucao1)
 }
 
-function registrarUsuarioViagem (idUsuario, idViagem) {
+function registrarUsuarioViagem(idUsuario, idViagem) {
   var instrucao = `
      INSERT INTO userViagem (idUsuario, idViagem)
       VALUES (${idUsuario}, ${idViagem});

@@ -34,7 +34,7 @@ router.get("/imagens/:idUsuario/:idViagem", function (req, res) {
 })
 
 router.get("/listar/:idUsuario", function (req, res) {
-  viagensController.listar(req, res);
+    viagensController.listar(req, res);
 });
 
 module.exports = router;

@@ -9,16 +9,16 @@ function cadastrar(nome, email, senha) {
 }
 
 function autenticar(email, senha) {
-    var instrucao = `
+  var instrucao = `
         SELECT * FROM usuarios
         WHERE email = '${email}' AND senha = '${senha}'
         LIMIT 1;
     `;
 
-    return executar(instrucao)
+  return executar(instrucao)
 }
 
 module.exports = {
-    cadastrar,
-    autenticar
+  cadastrar,
+  autenticar
 };

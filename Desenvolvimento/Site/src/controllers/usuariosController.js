@@ -19,7 +19,6 @@ function cadastrar(req, res) {
     }
 }
 
-
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
@@ -44,7 +43,6 @@ function autenticar(req, res) {
             });
     }
 }
-
 
 module.exports = {
     cadastrar,

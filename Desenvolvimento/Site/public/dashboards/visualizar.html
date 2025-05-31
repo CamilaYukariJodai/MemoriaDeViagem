@@ -44,21 +44,21 @@
 </html>
 
 <script>
-        var idUsuario = sessionStorage.getItem("ID_USUARIO");
+    var idUsuario = sessionStorage.getItem("ID_USUARIO");
 
-        function logout() {
-            sessionStorage.clear();
-            window.location.href = "../index.html";
-        }
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = "../index.html";
+    }
 
-        function carregarTabelaViagens() {
-            fetch("/viagens/listar/" + idUsuario)
-                .then(function (resposta) {
-                    if (resposta.ok) {
-                        resposta.json().then(function (dados) {
-                            var tabela = "";
-                            for (var i = 0; i < dados.length; i++) {
-                                tabela += `<tr>
+    function carregarTabelaViagens() {
+        fetch("/viagens/listar/" + idUsuario)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(function (dados) {
+                        var tabela = "";
+                        for (var i = 0; i < dados.length; i++) {
+                            tabela += `<tr>
                                 <td><img src="../uploads/${dados[i].imagem}" width="150px"></td>
                                 <td>${dados[i].destino}</td>
                                 <td>${dados[i].dtViagem}</td>
@@ -67,18 +67,18 @@
                                 <td>${dados[i].categoria}</td>
                                 <td>${dados[i].comentario}</td>
                             </tr>`;
-                            }
+                        }
 
-                            document.getElementById("tabelaViagens").innerHTML = tabela;
-                        });
-                    } else {
-                        console.error("Erro ao buscar viagens.");
-                    }
-                })
-                .catch(function (erro) {
-                    console.error("Erro na requisição:", erro);
-                });
-        }
+                        document.getElementById("tabelaViagens").innerHTML = tabela;
+                    });
+                } else {
+                    console.error("Erro ao buscar viagens.");
+                }
+            })
+            .catch(function (erro) {
+                console.error("Erro na requisição:", erro);
+            });
+    }
 
-        carregarTabelaViagens();
-    </script>
+    carregarTabelaViagens();
+</script>
