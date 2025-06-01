@@ -200,6 +200,7 @@ body {
     color: var(--preto);
 }
 
+/* SOBRE */
 .sobre {
     padding: 40px 20px;
     background-color: var(--background);
@@ -212,14 +213,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-#imgsobre img {
-    height: 300px;
-    width: 302px;
-    border-radius: 160px;
-    margin-bottom: 20px;
-    margin-right: 50px;
 }
 
 .texto-sobre p {
@@ -235,8 +228,56 @@ body {
 
 #titulo span {
     color: var(--laranja);
+} 
+
+#imgsobre img {
+    width: 100%;
+    max-width: 600px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 16px;
 }
 
+.texto-sobre {
+    max-width: 700px;
+    text-align: center;
+}
+
+#titulo {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#titulo span {
+    color: var(--laranja);
+}
+
+.texto-sobre p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+#imgsSobre {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    justify-items: center;
+    margin-top: 20px;
+}
+
+#imgsSobre img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* footer */
 .container-footer {
     margin: 0 auto;
     margin-top: 50px;
