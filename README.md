@@ -61,5 +61,6 @@ Para executar este projeto, é necessário criar um arquivo .env (em caso de ace
 `PORT` = 3306/3307
 
 Faça o upload do script MySQL no ambiente que desejar.
+
 ![Logo](https://raw.githubusercontent.com/CamilaYukariJodai/Viagem.Log/refs/heads/main/Desenvolvimento/Site/public/img/logo.png)
 
